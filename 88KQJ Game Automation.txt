@@ -11,11 +11,13 @@ import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class finalGameTesting {
@@ -41,7 +43,7 @@ public class finalGameTesting {
 		actions.moveToElement(driver.findElement(By.xpath("//a[text()=' Home']"))).perform();
 		Thread.sleep(1500);
 		List<WebElement> SlotProviderNames = driver.findElements(By.xpath("//div[@class='tab_btn_text text-center text-xs mt-2 uppercase']"));
-		for (int K = 1; K < 8; K++) {
+		for (int K = 1; K < SlotProviderNames.size(); K++) {
 			int ProvGamePassed = 0;
 			int ProvGameFailed = 0;
 			try {				
@@ -127,12 +129,22 @@ public class finalGameTesting {
 							}
 						}
 					}else {
-						List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-						WebElement button = PageButton2.get(jc);
-						String buttonText = button.getText();
-						System.out.println("buttonText: "+buttonText);
-						jse.executeScript("arguments[0].click()", button);
-						Thread.sleep(1050);
+						try {
+							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+							WebElement button = PageButton2.get(jc);
+//							jse.executeScript("arguments[0].click()", button);
+							button.click();
+							Thread.sleep(1050);
+						}catch(IndexOutOfBoundsException e) {
+							if(jc<=12) {
+								WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//								jse.executeScript("arguments[0].click()", button);
+								button.click();
+								Thread.sleep(1050);
+							}else {
+								break;
+							}
+						}
 					}
 					actions.scrollByAmount(-1450, -1450).perform();
 					Thread.sleep(950);
@@ -148,6 +160,7 @@ public class finalGameTesting {
 					String buttonName = button.getText();
 					System.out.println("Page Number Is: "+buttonName);
 					jse.executeScript("arguments[0].click()", button);
+					Thread.sleep(950);
 					actions.scrollByAmount(-1450, -1450).perform();
 					Thread.sleep(950);
 				}
@@ -156,7 +169,7 @@ public class finalGameTesting {
 			//--------------------------------------------------------------------------------------------------------------------------------------//
 		    	List<WebElement> gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
 		    	List<WebElement> TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
-				for(int g=gamesButton.size()-5;g<gamesButton.size();g++) {
+				for(int g=gamesButton.size()-4;g<gamesButton.size();g++) {
 		  			for(;;) {
 		  	        	try {
 		  	        		TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
@@ -175,8 +188,9 @@ public class finalGameTesting {
 //											"*****the game name contains only capital letter :" + GameNameIs);
 //								}
 		  	        		if (GameButton.isEnabled()) {
-		  	        			actions.moveToElement(GameButton).perform();
+//		  	        			actions.moveToElement(GameButton).perform();
 								jse.executeScript("arguments[0].click()", GameButton);
+								Thread.sleep(1500);
 		  	        			String FinalUrl = driver.getCurrentUrl();
 		                    	 ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 			                        int countw = tabs.size();
@@ -229,10 +243,22 @@ public class finalGameTesting {
 			        									}
 			        								}
 			        							}else {
-			        								List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			        								WebElement button = PageButton2.get(jc);
-			        								jse.executeScript("arguments[0].click()", button);
-			        								Thread.sleep(1050);
+			        								try {
+		            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+		            									WebElement button = PageButton2.get(jc);
+//		            									jse.executeScript("arguments[0].click()", button);
+		            									button.click();
+		            									Thread.sleep(1050);
+		            								}catch(IndexOutOfBoundsException e) {
+		            									if(jc<=12) {
+		            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//		            										jse.executeScript("arguments[0].click()", button);
+		            										button.click();
+		            										Thread.sleep(1050);
+		            									}else {
+		            										break;
+		            									}
+		            								}
 			        							}
 			        							actions.scrollByAmount(-1450, -1450).perform();
 			        							Thread.sleep(950);
@@ -270,7 +296,8 @@ public class finalGameTesting {
 			            							jse.executeScript("arguments[0].click()", hid);
 			            							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
 			            							WebElement button = PageButton2.get(jc);
-			            							jse.executeScript("arguments[0].click()", button);
+//			            							jse.executeScript("arguments[0].click()", button);
+			            							button.click();
 			            							Thread.sleep(1050);
 			            							actions.scrollByAmount(-1450, -1450).perform();
 			            							Thread.sleep(950);
@@ -290,22 +317,36 @@ public class finalGameTesting {
 			            								try {
 			            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
 			            									WebElement button = PageButton2.get(jc);
-			            									jse.executeScript("arguments[0].click()", button);
+//			            									jse.executeScript("arguments[0].click()", button);
+			            									button.click();
 			            									Thread.sleep(1050);
 			            								}catch(IndexOutOfBoundsException e) {
 			            									if(jc<=12) {
 			            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-			            										jse.executeScript("arguments[0].click()", button);
+//			            										jse.executeScript("arguments[0].click()", button);
+			            										button.click();
 			            										Thread.sleep(1050);
 			            									}else {
 			            										break;
 			            									}
 			            								}
 			            							}else {
-			            								List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			            								WebElement button = PageButton2.get(jc);
-			            								jse.executeScript("arguments[0].click()", button);
-			            								Thread.sleep(1050);
+			            								try {
+			            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+			            									WebElement button = PageButton2.get(jc);
+//			            									jse.executeScript("arguments[0].click()", button);
+			            									button.click();
+			            									Thread.sleep(1050);
+			            								}catch(IndexOutOfBoundsException e) {
+			            									if(jc<=12) {
+			            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//			            										jse.executeScript("arguments[0].click()", button);
+			            										button.click();
+			            										Thread.sleep(1050);
+			            									}else {
+			            										break;
+			            									}
+			            								}
 			            							}
 			            							actions.scrollByAmount(-1450, -1450).perform();
 			            							Thread.sleep(950);
@@ -318,7 +359,9 @@ public class finalGameTesting {
 			            							List<WebElement> PageButton = driver.findElements(By.xpath(
 			            									"//div[@class='flex justify-center items-center']/descendant::button"));
 			            							WebElement button = PageButton.get(jc);
-			            							jse.executeScript("arguments[0].click()", button);
+//			            							jse.executeScript("arguments[0].click()", button);
+			            							button.click();
+			            							Thread.sleep(950);
 			            							actions.scrollByAmount(-1450, -1450).perform();
 			            	    					Thread.sleep(950);
 			            						}
@@ -327,134 +370,91 @@ public class finalGameTesting {
 		  	        				ProvGamePassed++;
 		  	        				System.out.println("Pass: " + GameNameIs + " Is Working Fine");
 		  	        				Thread.sleep(2000);
-									driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")).click();
-			  	        				if(g<gamesButton.size()) {
-			  	        					if (jc > 5 && jc < 8) {
-							  					actions.scrollByAmount(1450, 1450).perform();
-							  					Thread.sleep(2000);
-							  					WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
-												jse.executeScript("arguments[0].click()", hid);
-												List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-												WebElement button = PageButton2.get(jc);
-												button.click();
-													actions.scrollByAmount(-1450, -1450).perform();
-													Thread.sleep(2000);
-							  				}else if(jc>=8) {
-													actions.scrollByAmount(1450, 1450).perform();
-							  					Thread.sleep(950);
-							  					driver.findElement(By.xpath("//button[text()='1']")).click();
-							  					Thread.sleep(2500);
-													jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
-													Thread.sleep(2500);
-													jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
-													Thread.sleep(2500);
-													if(jc>=9) {
-														driver.findElement(By.xpath("//button[text()='8']")).click();
-														Thread.sleep(2500);
-														Thread.sleep(2500);
-														try {
-															List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-															WebElement button = PageButton2.get(jc);
-															jse.executeScript("arguments[0].click()", button);
-															Thread.sleep(1050);
-														}catch(IndexOutOfBoundsException e) {
-															if(jc<=12) {
-																WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-																jse.executeScript("arguments[0].click()", button);
-																Thread.sleep(1050);
-															}else {
-																break;
-															}
-														}
-													}else {
-														List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-														WebElement button = PageButton2.get(jc);
-														jse.executeScript("arguments[0].click()", button);
-														Thread.sleep(2000);
-													}
-													actions.scrollByAmount(-1450, -1450).perform();
-													Thread.sleep(950);
-												}
-							  				else if (jc == 1) {
-												} 
-												else {
-													actions.scrollByAmount(1450, 1450).perform();
-													Thread.sleep(2000);
-													List<WebElement> PageButton = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-													WebElement button = PageButton.get(jc);
-													button.click();
-													actions.scrollByAmount(-1450, -1450).perform();
-													Thread.sleep(2000);
-												}
-			  	        				}
-		  	        			}else {
-		  	        				ProvGamePassed++;
-		  	        				System.out.println("Pass: " + GameNameIs + " Is Working Fine");
-		  	        				Thread.sleep(2000);
-		  	        				driver.navigate().back();
-		  	        				
-			  	        				if(g<gamesButton.size()) {
-			  	        					if (jc > 5 && jc < 8) {
-							  					actions.scrollByAmount(1450, 1450).perform();
-							  					Thread.sleep(2000);
-							  					WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
-												jse.executeScript("arguments[0].click()", hid);
-												List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-												WebElement button = PageButton2.get(jc);
-												button.click();
-													actions.scrollByAmount(-1450, -1450).perform();
-													Thread.sleep(2000);
-							  				}else if(jc>=8) {
-													actions.scrollByAmount(1450, 1450).perform();
-							  					Thread.sleep(950);
-							  					driver.findElement(By.xpath("//button[text()='1']")).click();
-							  					Thread.sleep(2500);
-													jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
-													Thread.sleep(2500);
-													jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
-													Thread.sleep(2500);
-													if(jc>=9) {
-														driver.findElement(By.xpath("//button[text()='8']")).click();
-														Thread.sleep(2500);
-														Thread.sleep(2500);
-														try {
-															List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-															WebElement button = PageButton2.get(jc);
-															String buttonText = button.getText();
-															jse.executeScript("arguments[0].click()", button);
-															Thread.sleep(1050);
-														}catch(IndexOutOfBoundsException e) {
-															if(jc<=12) {
-																WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-																String buttonText = button.getText();
-																jse.executeScript("arguments[0].click()", button);
-																Thread.sleep(1050);
-															}else {
-																break;
-															}
-														}
-													}else {
-														List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-														WebElement button = PageButton2.get(jc);
-														String buttonText = button.getText();
-														jse.executeScript("arguments[0].click()", button);
-														Thread.sleep(2000);
-													}
-													actions.scrollByAmount(-1450, -1450).perform();
-													Thread.sleep(950);
-												}
-							  				else if (jc == 1) {
-												} 
-												else {
-													actions.scrollByAmount(1450, 1450).perform();
-													Thread.sleep(2000);
-													List<WebElement> PageButton = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-													WebElement button = PageButton.get(jc);
-													button.click();
-													actions.scrollByAmount(-1450, -1450).perform();
-													Thread.sleep(2000);
-												}
-			  	        				}
+		  	        				try {
+		  	        					driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")).click();
+		  	        				}catch(NoSuchElementException e) {
+		  	        					wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")))).click();
+		  	        				}catch (TimeoutException e) {
+			  	        				driver.navigate().back();
+			  	        				Thread.sleep(2000);
+									}
+		  	        				if(g<gamesButton.size()) {
+	                            		if (jc > 5 && jc < 8) {
+	            	    					actions.scrollByAmount(1450, 1450).perform();
+	            	    					Thread.sleep(950);
+	            							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
+	            							jse.executeScript("arguments[0].click()", hid);
+	            							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+	            							WebElement button = PageButton2.get(jc);
+//	            							jse.executeScript("arguments[0].click()", button);
+	            							button.click();
+	            							Thread.sleep(1050);
+	            							actions.scrollByAmount(-1450, -1450).perform();
+	            							Thread.sleep(950);
+	            	    				}else if(jc>=8) {
+	            							actions.scrollByAmount(1450, 1450).perform();
+	            	    					Thread.sleep(950);
+	            	    					driver.findElement(By.xpath("//button[text()='1']")).click();
+	            	    					Thread.sleep(2500);
+	            							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
+	            							Thread.sleep(2500);
+	            							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
+	            							Thread.sleep(2500);
+	            							if(jc>=9) {
+	            								driver.findElement(By.xpath("//button[text()='8']")).click();
+	            								Thread.sleep(2500);
+	            								try {
+	            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+	            									WebElement button = PageButton2.get(jc);
+//	            									jse.executeScript("arguments[0].click()", button);
+	            									button.click();
+	            									Thread.sleep(1050);
+	            								}catch(IndexOutOfBoundsException e) {
+	            									if(jc<=12) {
+	            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//	            										jse.executeScript("arguments[0].click()", button);
+	            										button.click();
+	            										Thread.sleep(1050);
+	            									}else {
+	            										break;
+	            									}
+	            								}
+	            							}else {
+	            								try {
+	            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+	            									WebElement button = PageButton2.get(jc);
+//	            									jse.executeScript("arguments[0].click()", button);
+	            									button.click();
+	            									Thread.sleep(1050);
+	            								}catch(IndexOutOfBoundsException e) {
+	            									if(jc<=12) {
+	            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//	            										jse.executeScript("arguments[0].click()", button);
+	            										button.click();
+	            										Thread.sleep(1050);
+	            									}else {
+	            										break;
+	            									}
+	            								}
+	            							}
+	            							actions.scrollByAmount(-1450, -1450).perform();
+	            							Thread.sleep(950);
+	            						}
+	            	    				else if (jc == 1) {
+	            						} 
+	            						else {
+	            							actions.scrollByAmount(1450, 1450).perform();
+	            	    					Thread.sleep(950);
+	            							List<WebElement> PageButton = driver.findElements(By.xpath(
+	            									"//div[@class='flex justify-center items-center']/descendant::button"));
+	            							WebElement button = PageButton.get(jc);
+//	            							jse.executeScript("arguments[0].click()", button);
+	            							button.click();
+	            							Thread.sleep(950);
+	            							actions.scrollByAmount(-1450, -1450).perform();
+	            	    					Thread.sleep(950);
+	            						}
+		                            }
 		  	        			}
 								}else {
 									System.out.println("Fail: GameName Is Disabled: " + GameName);
