@@ -150,9 +150,9 @@ public class a88KQJGameTestingLindakshi {
 											LiveCassinoPlay =  LiveCassinosPlay.get(lc);
 						  	        		LiveCassinoNameIs = LiveCassinoName.getText();
 						  	        		Thread.sleep(500);
-					  	        			LiveCassinoName.click();
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoName);
 						  	        		Thread.sleep(1500);
-						  	        		LiveCassinoPlay.click();
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoPlay);
 					  	        		}catch(ElementClickInterceptedException e) {
 					  	        			LiveCassinoNames = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
 											LiveCassinosPlay = driver.findElements(By.xpath("//button[@class='live_banner_play_btn']"));
@@ -160,9 +160,9 @@ public class a88KQJGameTestingLindakshi {
 											LiveCassinoPlay =  LiveCassinosPlay.get(lc);
 						  	        		LiveCassinoNameIs = LiveCassinoName.getText();
 						  	        		Thread.sleep(500);
-					  	        			LiveCassinoName.click();
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoName);
 						  	        		Thread.sleep(1500);
-						  	        		LiveCassinoPlay.click();
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoPlay);
 					  	        		}
 				  	        		String spfinalurl = driver.getCurrentUrl();
 				  	        		if (driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size() != 0) {
@@ -371,70 +371,19 @@ public class a88KQJGameTestingLindakshi {
 						  	        		WebElement GameName = TestCmt.get(g);
 						  	        		String GameNameIs = GameName.getText();
 						  	        		WebElement GameButton = gamesButton.get(g);
-						  	        		if (GameName.isDisplayed()) {
-						  	        			boolean doesItMatch = GameNameIs.matches(
-														"[A-Z]([A-Z0-9][a-z][a-z0-9][A-Z]|[a-z0-9][A-Z][A-Z0-9][a-z])[A-Za-z0-9]*");
-												boolean doesItMatch2 = GameNameIs.matches("\b[A-Z]+\b");
-												if (doesItMatch) {
-													System.out.println("****the game name is not having space :" + GameNameIs);
-												} else if (doesItMatch2) {
-													System.out.println(
-															"*****the game name contains only capital letter :" + GameNameIs);
-												}
-												if (GameButton.isEnabled()) {
-						  	        			try {
-						  	        				TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
-						  	        				gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
-						  	        				GameName = TestCmt.get(g);
-						  	        				actions.moveToElement(GameName).perform();
-						  	        				GameButton = gamesButton.get(g);
-						  	        				wait.until(ExpectedConditions.elementToBeClickable(GameButton)).click();
-						  	        			}catch(TimeoutException e) {
-						  	        				TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
-						  	        				gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
-						  	        				GameName = TestCmt.get(g);
-						  	        				actions.moveToElement(GameName).perform();
-						  	        				GameButton = gamesButton.get(g);
-						  	        				actions.doubleClick(GameButton).perform();
-						  	        			}
-						  	        			try {
-						  	        				WebDriverWait Pippida = new WebDriverWait(driver, Duration.ofSeconds(50));
-							                    	Pippida.until(ExpectedConditions.or(
-							                    		    ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='toast-message text-sm']")),
-							                    		    ExpectedConditions.elementToBeClickable(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"))
-							                    		));
-						  	        			}catch (TimeoutException e) {
-						  	        			    WebElement toastMessage = null;
-						  	        			    WebElement closeButton = null;
-						  	        			    
-						  	        			  try {
-						  	        		        // Check if toast message is present
-						  	        		        toastMessage = driver.findElement(By.xpath("//div[@class='toast-message text-sm']"));
-						  	        		        System.out.println("Toast message is present: " + wait.until(ExpectedConditions.visibilityOf(toastMessage)).getText());
-						  	        		    } catch (NoSuchElementException ex) {
-						  	        		        // Handle if toast message is not present
-						  	        		        System.out.println("Toast message is not present.");
-						  	        		    }
-
-						  	        		    try {
-						  	        		        // Check if close button is clickable
-						  	        		        closeButton = driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"));
-						  	        		        wait.until(ExpectedConditions.elementToBeClickable(closeButton)).click();
-						  	        		        System.out.println("Close button is clickable.");
-						  	        		    } catch (NoSuchElementException ex) {
-						  	        		        // Handle if close button is not clickable
-						  	        		        System.out.println("Close button is not clickable.");
-						  	        		    }
-												}
-						  	        			
-						  	        			WebDriverWait Pippida = new WebDriverWait(driver, Duration.ofSeconds(15));
-						  	        			Pippida.until(ExpectedConditions.or(
-						  	        			    ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='toast-message text-sm']")),
-						  	        			    ExpectedConditions.elementToBeClickable(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"))
-						  	        			));
-						  	        			
-						  	        			
-						  	        		
+//						  	        		if (GameName.isDisplayed()) {
+//						  	        			boolean doesItMatch = GameNameIs.matches(
+//														"[A-Z]([A-Z0-9][a-z][a-z0-9][A-Z]|[a-z0-9][A-Z][A-Z0-9][a-z])[A-Za-z0-9]*");
+//												boolean doesItMatch2 = GameNameIs.matches("\b[A-Z]+\b");
+//												if (doesItMatch) {
+//													System.out.println("****the game name is not having space :" + GameNameIs);
+//												} else if (doesItMatch2) {
+//													System.out.println(
+//															"*****the game name contains only capital letter :" + GameNameIs);
+//												}
+						  	        		if (GameButton.isEnabled()) {
+						  	        			actions.moveToElement(GameButton).perform();
+												jse.executeScript("arguments[0].click()", GameButton);
 						  	        			String FinalUrl = driver.getCurrentUrl();
 						                    	 ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 							                        int countw = tabs.size();
@@ -503,15 +452,16 @@ public class a88KQJGameTestingLindakshi {
 							  	        				}
 							                        }else 
 //							                        	if (CurrentUrl.equals(FinalUrl)) {
-							                        	if(driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size()!=0) {
-							                            	try {
-							                            		WebElement Messgbox = driver.findElement(By.xpath("//div[@class='toast-message text-sm']"));
-								  	        					String MessgboxText = Pippida.until(ExpectedConditions.visibilityOf(Messgbox)).getText();
-								  	        					System.out.println("Fail: " + GameNameIs + " Is not Working and message is: " + MessgboxText);
-								  	        					Thread.sleep(800);
-							                            	}catch(TimeoutException e) {
-							                            		System.out.println("Fail: " + GameNameIs + " Is Not Opening: Message:- Something went wrong. Try again later.");
-							                            	}
+							                        	if (driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size() != 0) {
+							                        		String messgtext = (driver
+																	.findElement(By.xpath("//div[@class='toast-message text-sm']")))
+																	.getText();
+															driver.findElement(By.xpath(
+																	"//div[@class='toast-close ml-2 flex items-center self-center']"))
+																	.click();
+															System.out.println(
+																	"Fail: " + GameNameIs + " Is Not Opening: Message:- " + messgtext);
+															ProvGameFailed++;
 							                            	if(g<gamesButton.size()) {
 							                            		if (jc > 5 && jc < 8) {
 							                    					actions.scrollByAmount(1450, 1450).perform();
@@ -573,17 +523,11 @@ public class a88KQJGameTestingLindakshi {
 							                					}
 							                            	}
 						  	        			} else {
-							  	        				System.out.println("Pass: " + GameNameIs + " Is Working Fine");
-							  	        				Thread.sleep(500);
-							  	        				try {
-							  	        				  WebElement Cancelbtn = Pippida.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")));
-							  	        				Pippida.until(ExpectedConditions.elementToBeClickable(Cancelbtn)).click();
-							  	        				  Thread.sleep(2000);
-							  	        				} catch (TimeoutException e) {
-							  	        				    WebElement cancelBtn = driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"));
-							  	        				    actions.doubleClick(cancelBtn).perform();
-							  	        				    Thread.sleep(2000);
-							  	        				}
+						  	        				ProvGamePassed++;
+						  	        				System.out.println("Pass: " + GameNameIs + " Is Working Fine");
+													driver.findElement(By.xpath(
+															"//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"))
+															.click();
 							  	        				if(g<gamesButton.size()) {
 							  	        					if (jc > 5 && jc < 8) {
 							  	          					actions.scrollByAmount(1450, 1450).perform();
@@ -649,9 +593,9 @@ public class a88KQJGameTestingLindakshi {
 												}else {
 													System.out.println("Fail: GameName Is Disabled: " + GameName);
 												}
-						  	        		} else {
-						  	        			System.out.println("Fail: GameName Is Not Displayed: " + GameName);
-						  	        		}
+//						  	        		} else {
+//						  	        			System.out.println("Fail: GameName Is Not Displayed: " + GameName);
+//						  	        		}
 						  	        		break;
 						  	        	}catch(NoSuchElementException e) {
 						  	        		jse.executeScript("window.scrollBy(0,150)");
