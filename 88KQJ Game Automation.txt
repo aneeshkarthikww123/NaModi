@@ -1,17 +1,22 @@
 package CrossbrowserTesting;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,12 +24,16 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
-public class finalGameTesting {
+public class a88KQJGameTestingLindakshi {
+
 	public static void main(String[] args) throws InterruptedException, IOException {
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://www.88kqj.com/en-th/");
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 		driver.manage().window().maximize();
 		Thread.sleep(1000);
 		Actions actions = new Actions(driver);
@@ -35,455 +44,657 @@ public class finalGameTesting {
 
 		driver.findElement(By.xpath("//button[@class='topbar_btn_1 mr-[20px] hidden md:block']")).click();
 		Thread.sleep(500);
-		Thread.sleep(1000);
-//		driver.findElement(By.xpath("//button[@class='mission_daily_close_btn']")).click();
-		jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//a[text()=' Slot']")));
-		driver.findElement(By.xpath("//a[text()=' Slot']")).click();
-		Thread.sleep(500);
-		actions.moveToElement(driver.findElement(By.xpath("//a[text()=' Home']"))).perform();
-		Thread.sleep(1500);
-		List<WebElement> SlotProviderNames = driver.findElements(By.xpath("//div[@class='tab_btn_text text-center text-xs mt-2 uppercase']"));
-		for (int K = 1; K < SlotProviderNames.size(); K++) {
-			int ProvGamePassed = 0;
-			int ProvGameFailed = 0;
-			try {				
-				WebElement slotprovider = SlotProviderNames.get(K);
-				actions.moveToElement(slotprovider).perform();
-				String SlotProviderName = slotprovider.getText();
-				System.out.println("The Provider Name Is: " + SlotProviderName);
-				slotprovider.click();
-				Thread.sleep(100);
-			} catch (StaleElementReferenceException e) {
-				jse.executeScript("window.scrollBy(200,0)");
-				Thread.sleep(100);
-				SlotProviderNames = driver
-						.findElements(By.xpath("//div[@class='tab_btn_text text-center text-xs mt-2 uppercase']"));
-				WebElement slotprovider = SlotProviderNames.get(K);
-				String SlotProviderName = slotprovider.getText();
-				System.out.println("The Provider Name Is: " + SlotProviderName);
-				slotprovider.click();
-				Thread.sleep(100);
-			} catch (MoveTargetOutOfBoundsException e) {
-				jse.executeScript("window.scrollBy(200,0)");
-				Thread.sleep(50);
-				continue;
-			}
-			List<WebElement> pages = driver.findElements(By.xpath("//button[@class='p-btn']"));
-			String CurrentUrl = driver.getCurrentUrl();
-			int count2 = 0;
-			
-			if( driver.findElements(By.xpath("//button[@class='p-btn']")).size()!=0) {
-				pages = driver.findElements(By.xpath("//button[@class='p-btn']"));
-				int lastIndex = pages.size() - 1;
-				WebElement lastElement = pages.get(lastIndex);
-				String count1 = lastElement.getText();
-				count2 = Integer.parseInt(count1);
-				System.out.println("Pages: "+pages.size());
-			}
-			else {
-				count2 = 1;
-			}
-			for (int jc = 1; jc <= count2; jc++) {
-				if (jc > 5 && jc < 8) {
-					actions.scrollByAmount(1450, 1450).perform();
-					Thread.sleep(950);
-					WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
-					jse.executeScript("arguments[0].click()", hid);
-					List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-					WebElement button = PageButton2.get(jc);
-					String buttonText = button.getText();
-					System.out.println("buttonText: "+buttonText);
-					jse.executeScript("arguments[0].click()", button);
-					Thread.sleep(1050);
-					actions.scrollByAmount(-1450, -1450).perform();
-					Thread.sleep(950);
-				}else if(jc>=8) {
-					actions.scrollByAmount(1450, 1450).perform();
-					Thread.sleep(950);
-					driver.findElement(By.xpath("//button[text()='1']")).click();
-					Thread.sleep(2500);
-					jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
-					Thread.sleep(2500);
-					jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
-					Thread.sleep(2500);
-					if(jc>=9) {
-						driver.findElement(By.xpath("//button[text()='8']")).click();
-						Thread.sleep(2500);
-						Thread.sleep(2500);
+
+		List<WebElement> Categiories = driver.findElements(By.xpath("//div[@class='inline-flex items-center']/div/a"));
+		for(int i=3;i<Categiories.size()-2;i++) {
+		try {
+			Categiories = driver.findElements(By.xpath("//div[@class='inline-flex items-center']/div/a"));
+			WebElement category = Categiories.get(i);
+			String CatButtonName = category.getText();
+			System.out.println(CatButtonName);
+			category.click();
+			Thread.sleep(300);
+			actions.moveToElement(driver.findElement(By.xpath("//a[text()=' Home']"))).perform();
+			Thread.sleep(500);
+			int NoOfGamesFailedCat=0;
+			int NoOfGamesPassedCat=0;
+			if(("SPORTS").equals(CatButtonName)) { //Sports Dropdown
+				String CurrentUrl = driver.getCurrentUrl();
+				List<WebElement> GamesportsName = driver.findElements(By.xpath("//div[@class='flex flex-wrap w-[800px] relative']/button//div[@class='text-white text-sm absolute bottom-3 left-5 z-10 uppercase']"));
+				for(int sp=0;sp<GamesportsName.size();sp++) {
+					for(;;) {
 						try {
-							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-							WebElement button = PageButton2.get(jc);
-							String buttonText = button.getText();
-							System.out.println("buttonText: "+buttonText);
-							jse.executeScript("arguments[0].click()", button);
-							Thread.sleep(1050);
-						}catch(IndexOutOfBoundsException e) {
-							if(jc<=12) {
-								WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-								String buttonText = button.getText();
-								System.out.println("buttonText: "+buttonText);
-								jse.executeScript("arguments[0].click()", button);
-								Thread.sleep(1050);
-							}else {
-								break;
-							}
+							GamesportsName = driver.findElements(By.xpath("//div[@class='flex flex-wrap w-[800px] relative']/button//div[@class='text-white text-sm absolute bottom-3 left-5 z-10 uppercase']"));
+							WebElement GamesportName =  GamesportsName.get(sp);
+		  	        		String GamesportNameIs = GamesportName.getText();
+		  	        		actions.scrollByAmount(250, 250).perform();
+		  	        		Thread.sleep(500);
+		  	        		GamesportName.click();
+		  	        		Thread.sleep(2500);
+		  	        		String spfinalurl = driver.getCurrentUrl();
+		  	        		if (driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size() != 0) {
+								String messgtext = (driver.findElement(By.xpath("//div[@class='toast-message text-sm']"))).getText();
+								System.out.println("Fail: " + GamesportNameIs + " Is Not Opening: Message:- " + messgtext);
+								driver.findElement(By.xpath("//div[@class='toast-close ml-2 flex items-center self-center']")).click();
+								NoOfGamesFailedCat++;
+								System.out.println("Fail: " + GamesportNameIs + " Is Not Opening: Message:- " + messgtext);
+		  	        		}else {
+		  	        			NoOfGamesPassedCat++;
+		  	        			System.out.println("Pass: " + GamesportNameIs + " Is Working Fine");
+//            					driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//	  	        				driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")).click();
+	  	        				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"))).click();
+		  	        		}
+		  	        		break;
+						}catch(StaleElementReferenceException e) {
+//							jse.executeScript("window.scrollBy(0,150)");
+							GamesportsName = driver.findElements(By.xpath("//div[@class='flex flex-wrap w-[800px] relative']/button//div[@class='text-white text-sm absolute bottom-3 left-5 z-10 uppercase']"));
+							WebElement GamesportName =  GamesportsName.get(sp);
+		  	        		GamesportName.click();
+		  	        		Thread.sleep(1500);
+		  	        		continue;
+						}catch(InterruptedException e) {
+							jse.executeScript("window.scrollBy(0,250)");
+							Thread.sleep(200);
+							continue;
 						}
-					}else {
-						try {
-							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-							WebElement button = PageButton2.get(jc);
-//							jse.executeScript("arguments[0].click()", button);
-							button.click();
-							Thread.sleep(1050);
-						}catch(IndexOutOfBoundsException e) {
-							if(jc<=12) {
-								WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-//								jse.executeScript("arguments[0].click()", button);
-								button.click();
-								Thread.sleep(1050);
-							}else {
-								break;
+					}
+				}
+				System.out.println("Total number of games Failed in Sports: "+NoOfGamesFailedCat);
+				System.out.println("Total number of games Failed in Sports: "+NoOfGamesPassedCat);
+			}else 
+				if(("LIVE CASINO").equals(CatButtonName)) {
+					String CurrentUrl = driver.getCurrentUrl();
+					List<WebElement> LiveCassinoNames = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+					List<WebElement> LiveCassinosPlay = driver.findElements(By.xpath("//button[@class='live_banner_play_btn']"));
+					for(int lc=0;lc<4;lc++) {
+						if(lc==3) {
+							continue;
+						}else {
+							for(;;) {
+								try {
+									LiveCassinoNames = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+									LiveCassinosPlay = driver.findElements(By.xpath("//button[@class='live_banner_play_btn']"));
+									WebElement LiveCassinoName = LiveCassinoNames.get(lc);
+									WebElement LiveCassinoPlay =  LiveCassinosPlay.get(lc);
+									String LiveCassinoNameIs = LiveCassinoName.getText();
+					  	        		try {
+					  	        			LiveCassinoNames = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+											LiveCassinosPlay = driver.findElements(By.xpath("//button[@class='live_banner_play_btn']"));
+											LiveCassinoName = LiveCassinoNames.get(lc);
+											LiveCassinoPlay =  LiveCassinosPlay.get(lc);
+						  	        		LiveCassinoNameIs = LiveCassinoName.getText();
+						  	        		Thread.sleep(500);
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoName);
+						  	        		Thread.sleep(1500);
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoPlay);
+					  	        		}catch(ElementClickInterceptedException e) {
+					  	        			LiveCassinoNames = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+											LiveCassinosPlay = driver.findElements(By.xpath("//button[@class='live_banner_play_btn']"));
+											LiveCassinoName = LiveCassinoNames.get(lc);
+											LiveCassinoPlay =  LiveCassinosPlay.get(lc);
+						  	        		LiveCassinoNameIs = LiveCassinoName.getText();
+						  	        		Thread.sleep(500);
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoName);
+						  	        		Thread.sleep(1500);
+						  	        		jse.executeScript("arguments[0].click()", LiveCassinoPlay);
+					  	        		}
+				  	        		String spfinalurl = driver.getCurrentUrl();
+				  	        		if (driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size() != 0) {
+				  	        			WebElement Messgbox = driver.findElement(By.xpath("//div[@class='toast-message text-sm']"));
+				        					String MessgboxText = wait.until(ExpectedConditions.visibilityOf(Messgbox)).getText();
+				        					WebElement ToastCancel = driver.findElement(By.xpath("//div[@class='toast-close ml-2 flex items-center self-center']"));
+				        					ToastCancel.click();
+				        					System.out.println("Fail: " + LiveCassinoNameIs + " Is not Working and message is: " + MessgboxText);
+				        					Thread.sleep(800);
+				  	        		}else {
+				  	        			System.out.println("Pass: " + LiveCassinoNameIs + " Is Working Fine");
+				  	        			WebElement Cancelbtn = driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"));
+				  	        			wait.until(ExpectedConditions.elementToBeClickable(Cancelbtn)).click();
+				  	        			Thread.sleep(800);
+				  	        		}
+				  	        		break;
+								}catch(StaleElementReferenceException e) {
+									LiveCassinoNames = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+									LiveCassinosPlay = driver.findElements(By.xpath("//button[@class='live_banner_play_btn']"));
+				  	        		Thread.sleep(200);
+				  	        		continue;
+								}
 							}
 						}
 					}
-					actions.scrollByAmount(-1450, -1450).perform();
-					Thread.sleep(950);
-				}
-				else if (jc == 1) {
-				} 
-				else {
-					actions.scrollByAmount(1450, 1450).perform();
-					Thread.sleep(950);
-					List<WebElement> PageButton = driver.findElements(By.xpath(
-							"//div[@class='flex justify-center items-center']/descendant::button"));
-					WebElement button = PageButton.get(jc);
-					String buttonName = button.getText();
-					System.out.println("Page Number Is: "+buttonName);
-					jse.executeScript("arguments[0].click()", button);
-					Thread.sleep(950);
-					actions.scrollByAmount(-1450, -1450).perform();
-					Thread.sleep(950);
-				}
-			//--------------------------------------------------------------------------------------------------------------------------------------//
-			// Game Section 
-			//--------------------------------------------------------------------------------------------------------------------------------------//
-		    	List<WebElement> gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
-		    	List<WebElement> TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
-				for(int g=gamesButton.size()-4;g<gamesButton.size();g++) {
-		  			for(;;) {
-		  	        	try {
-		  	        		TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
-		  	        		gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
-		  	        		WebElement GameName = TestCmt.get(g);
-		  	        		String GameNameIs = GameName.getText();
-		  	        		WebElement GameButton = gamesButton.get(g);
-//		  	        		if (GameName.isDisplayed()) {
-//		  	        			boolean doesItMatch = GameNameIs.matches(
-//										"[A-Z]([A-Z0-9][a-z][a-z0-9][A-Z]|[a-z0-9][A-Z][A-Z0-9][a-z])[A-Za-z0-9]*");
-//								boolean doesItMatch2 = GameNameIs.matches("\b[A-Z]+\b");
-//								if (doesItMatch) {
-//									System.out.println("****the game name is not having space :" + GameNameIs);
-//								} else if (doesItMatch2) {
-//									System.out.println(
-//											"*****the game name contains only capital letter :" + GameNameIs);
-//								}
-		  	        		if (GameButton.isEnabled()) {
-//		  	        			actions.moveToElement(GameButton).perform();
-								jse.executeScript("arguments[0].click()", GameButton);
-								Thread.sleep(1500);
-		  	        			String FinalUrl = driver.getCurrentUrl();
-		                    	 ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-			                        int countw = tabs.size();
-			                        if (countw > 1) {
-			                            driver.switchTo().window(tabs.get(1));
-			                            Thread.sleep(2500);
-			                            System.out.println("Pass: " + GameNameIs + " is working fine");
-			                            driver.close();
-			                            driver.switchTo().window(tabs.get(0));
-			                            Thread.sleep(1800);
-			                            actions.scrollByAmount(0, -300).perform();
-			                            System.out.println("Pass: " + GameNameIs + " is working fine");
-			                            if(g<gamesButton.size()) {
-			                            	if (jc > 5 && jc < 8) {
-			        	    					actions.scrollByAmount(1450, 1450).perform();
-			        	    					Thread.sleep(950);
-			        							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
-			        							jse.executeScript("arguments[0].click()", hid);
-			        							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			        							WebElement button = PageButton2.get(jc);
-			        							jse.executeScript("arguments[0].click()", button);
-			        							Thread.sleep(1050);
-			        							actions.scrollByAmount(-1450, -1450).perform();
-			        							Thread.sleep(950);
-			        	    				}else if(jc>=8) {
-			        							actions.scrollByAmount(1450, 1450).perform();
-			        	    					Thread.sleep(950);
-			        	    					driver.findElement(By.xpath("//button[text()='1']")).click();
-			        	    					Thread.sleep(2500);
-			        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
-			        							Thread.sleep(2500);
-			        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
-			        							Thread.sleep(2500);
-			        							if(jc>=9) {
-			        								driver.findElement(By.xpath("//button[text()='8']")).click();
-			        								Thread.sleep(2500);
-			        								Thread.sleep(2500);
-			        								try {
-			        									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			        									WebElement button = PageButton2.get(jc);
-			        									jse.executeScript("arguments[0].click()", button);
-			        									Thread.sleep(1050);
-			        								}catch(IndexOutOfBoundsException e) {
-			        									if(jc<=12) {
-			        										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-			        										jse.executeScript("arguments[0].click()", button);
-			        										Thread.sleep(1050);
-			        									}else {
-			        										break;
-			        									}
-			        								}
-			        							}else {
-			        								try {
-		            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-		            									WebElement button = PageButton2.get(jc);
-//		            									jse.executeScript("arguments[0].click()", button);
-		            									button.click();
-		            									Thread.sleep(1050);
-		            								}catch(IndexOutOfBoundsException e) {
-		            									if(jc<=12) {
-		            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-//		            										jse.executeScript("arguments[0].click()", button);
-		            										button.click();
-		            										Thread.sleep(1050);
-		            									}else {
-		            										break;
-		            									}
-		            								}
-			        							}
-			        							actions.scrollByAmount(-1450, -1450).perform();
-			        							Thread.sleep(950);
-			        						}
-			        	    				else if (jc == 1) {
-			        						} 
-			        						else {
-			        							actions.scrollByAmount(1450, 1450).perform();
-			        	    					Thread.sleep(950);
-			        							List<WebElement> PageButton = driver.findElements(By.xpath(
-			        									"//div[@class='flex justify-center items-center']/descendant::button"));
-			        							WebElement button = PageButton.get(jc);
-			        							jse.executeScript("arguments[0].click()", button);
-			        							actions.scrollByAmount(-1450, -1450).perform();
-			        	    					Thread.sleep(950);
-			        						}
-			                            }
-			                        }else 
-//			                        	if (CurrentUrl.equals(FinalUrl)) {
-			                        	if (driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size() != 0) {
-			                        		String messgtext = (driver
-													.findElement(By.xpath("//div[@class='toast-message text-sm']")))
-													.getText();
-											driver.findElement(By.xpath(
-													"//div[@class='toast-close ml-2 flex items-center self-center']"))
-													.click();
-											System.out.println(
-													"Fail: " + GameNameIs + " Is Not Opening: Message:- " + messgtext);
-											ProvGameFailed++;
-			                            	if(g<gamesButton.size()) {
-			                            		if (jc > 5 && jc < 8) {
-			            	    					actions.scrollByAmount(1450, 1450).perform();
-			            	    					Thread.sleep(950);
-			            							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
-			            							jse.executeScript("arguments[0].click()", hid);
-			            							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			            							WebElement button = PageButton2.get(jc);
-//			            							jse.executeScript("arguments[0].click()", button);
-			            							button.click();
-			            							Thread.sleep(1050);
-			            							actions.scrollByAmount(-1450, -1450).perform();
-			            							Thread.sleep(950);
-			            	    				}else if(jc>=8) {
-			            							actions.scrollByAmount(1450, 1450).perform();
-			            	    					Thread.sleep(950);
-			            	    					driver.findElement(By.xpath("//button[text()='1']")).click();
-			            	    					Thread.sleep(2500);
-			            							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
-			            							Thread.sleep(2500);
-			            							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
-			            							Thread.sleep(2500);
-			            							if(jc>=9) {
-			            								driver.findElement(By.xpath("//button[text()='8']")).click();
-			            								Thread.sleep(2500);
-			            								Thread.sleep(2500);
-			            								try {
-			            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			            									WebElement button = PageButton2.get(jc);
-//			            									jse.executeScript("arguments[0].click()", button);
-			            									button.click();
-			            									Thread.sleep(1050);
-			            								}catch(IndexOutOfBoundsException e) {
-			            									if(jc<=12) {
-			            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-//			            										jse.executeScript("arguments[0].click()", button);
-			            										button.click();
-			            										Thread.sleep(1050);
-			            									}else {
-			            										break;
-			            									}
-			            								}
-			            							}else {
-			            								try {
-			            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-			            									WebElement button = PageButton2.get(jc);
-//			            									jse.executeScript("arguments[0].click()", button);
-			            									button.click();
-			            									Thread.sleep(1050);
-			            								}catch(IndexOutOfBoundsException e) {
-			            									if(jc<=12) {
-			            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-//			            										jse.executeScript("arguments[0].click()", button);
-			            										button.click();
-			            										Thread.sleep(1050);
-			            									}else {
-			            										break;
-			            									}
-			            								}
-			            							}
-			            							actions.scrollByAmount(-1450, -1450).perform();
-			            							Thread.sleep(950);
-			            						}
-			            	    				else if (jc == 1) {
-			            						} 
-			            						else {
-			            							actions.scrollByAmount(1450, 1450).perform();
-			            	    					Thread.sleep(950);
-			            							List<WebElement> PageButton = driver.findElements(By.xpath(
-			            									"//div[@class='flex justify-center items-center']/descendant::button"));
-			            							WebElement button = PageButton.get(jc);
-//			            							jse.executeScript("arguments[0].click()", button);
-			            							button.click();
-			            							Thread.sleep(950);
-			            							actions.scrollByAmount(-1450, -1450).perform();
-			            	    					Thread.sleep(950);
-			            						}
-				                            }
-		  	        			} else if(driver.findElements(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")).size() != 0){
-		  	        				ProvGamePassed++;
-		  	        				System.out.println("Pass: " + GameNameIs + " Is Working Fine");
-		  	        				Thread.sleep(2000);
-		  	        				try {
-		  	        					driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")).click();
-		  	        				}catch(NoSuchElementException e) {
-		  	        					wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")))).click();
-		  	        				}catch (TimeoutException e) {
-			  	        				driver.navigate().back();
-			  	        				Thread.sleep(2000);
-									}
-		  	        				if(g<gamesButton.size()) {
-	                            		if (jc > 5 && jc < 8) {
-	            	    					actions.scrollByAmount(1450, 1450).perform();
-	            	    					Thread.sleep(950);
-	            							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
-	            							jse.executeScript("arguments[0].click()", hid);
-	            							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-	            							WebElement button = PageButton2.get(jc);
-//	            							jse.executeScript("arguments[0].click()", button);
-	            							button.click();
-	            							Thread.sleep(1050);
-	            							actions.scrollByAmount(-1450, -1450).perform();
-	            							Thread.sleep(950);
-	            	    				}else if(jc>=8) {
-	            							actions.scrollByAmount(1450, 1450).perform();
-	            	    					Thread.sleep(950);
-	            	    					driver.findElement(By.xpath("//button[text()='1']")).click();
-	            	    					Thread.sleep(2500);
-	            							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
-	            							Thread.sleep(2500);
-	            							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
-	            							Thread.sleep(2500);
-	            							if(jc>=9) {
-	            								driver.findElement(By.xpath("//button[text()='8']")).click();
-	            								Thread.sleep(2500);
-	            								try {
-	            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-	            									WebElement button = PageButton2.get(jc);
-//	            									jse.executeScript("arguments[0].click()", button);
-	            									button.click();
-	            									Thread.sleep(1050);
-	            								}catch(IndexOutOfBoundsException e) {
-	            									if(jc<=12) {
-	            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-//	            										jse.executeScript("arguments[0].click()", button);
-	            										button.click();
-	            										Thread.sleep(1050);
-	            									}else {
-	            										break;
-	            									}
-	            								}
-	            							}else {
-	            								try {
-	            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
-	            									WebElement button = PageButton2.get(jc);
-//	            									jse.executeScript("arguments[0].click()", button);
-	            									button.click();
-	            									Thread.sleep(1050);
-	            								}catch(IndexOutOfBoundsException e) {
-	            									if(jc<=12) {
-	            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
-//	            										jse.executeScript("arguments[0].click()", button);
-	            										button.click();
-	            										Thread.sleep(1050);
-	            									}else {
-	            										break;
-	            									}
-	            								}
-	            							}
-	            							actions.scrollByAmount(-1450, -1450).perform();
-	            							Thread.sleep(950);
-	            						}
-	            	    				else if (jc == 1) {
-	            						} 
-	            						else {
-	            							actions.scrollByAmount(1450, 1450).perform();
-	            	    					Thread.sleep(950);
-	            							List<WebElement> PageButton = driver.findElements(By.xpath(
-	            									"//div[@class='flex justify-center items-center']/descendant::button"));
-	            							WebElement button = PageButton.get(jc);
-//	            							jse.executeScript("arguments[0].click()", button);
-	            							button.click();
-	            							Thread.sleep(950);
-	            							actions.scrollByAmount(-1450, -1450).perform();
-	            	    					Thread.sleep(950);
-	            						}
-		                            }
-		  	        			}
-								}else {
-									System.out.println("Fail: GameName Is Disabled: " + GameName);
+					System.out.println("Total number of games Failed in LIVE CASINO: "+NoOfGamesFailedCat);
+					System.out.println("Total number of games Failed in LIVE CASINO: "+NoOfGamesPassedCat);
+				}else 
+					if(("ESPORTS").equals(CatButtonName)) {
+						String CurrentUrl = driver.getCurrentUrl();
+						List<WebElement> EsportsPlays = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+						List<WebElement> EsportsNames = driver.findElements(By.xpath("//img[@class='h-[80px] xl:h-[90px] mx-auto']"));
+						for(int lc=0;lc<EsportsPlays.size();lc++) {
+							actions.scrollByAmount(95, 95).perform();
+							Thread.sleep(1500);
+							for(;;) {
+								try {
+									EsportsPlays = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+									EsportsNames = driver.findElements(By.xpath("//img[@class='h-[80px] xl:h-[90px] mx-auto']"));
+									WebElement LiveCassinoName = EsportsNames.get(lc);
+									WebElement LiveCassinoPlay =  EsportsPlays.get(lc);
+				  	        		String LiveCassinoNameIs = LiveCassinoName.getText();
+				  	        		Thread.sleep(500);
+				  	        		LiveCassinoName.click();
+				  	        		Thread.sleep(1500);
+				  	        		LiveCassinoPlay.click();
+				  	        		Thread.sleep(3000);
+				  	        		String spfinalurl = driver.getCurrentUrl();
+				  	        		if(CurrentUrl.equals(spfinalurl)) {
+				  	        			WebElement Messgbox = driver.findElement(By.xpath("//div[@class='toast-message text-sm']"));
+				        					String MessgboxText = wait.until(ExpectedConditions.visibilityOf(Messgbox)).getText();
+				        					WebElement ToastCancel = driver.findElement(By.xpath("//div[@class='toast-close ml-2 flex items-center self-center']"));
+				        					ToastCancel.click();
+				        					System.out.println("Fail: " + LiveCassinoNameIs + " Is not Working and message is: " + MessgboxText);
+				        					Thread.sleep(800);
+				  	        		}else {
+				  	        			System.out.println("Pass: " + LiveCassinoNameIs + " Is Working Fine");
+			  	        				WebElement Cancelbtn = driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']"));
+			  	        				wait.until(ExpectedConditions.elementToBeClickable(Cancelbtn)).click();
+			  	        				Thread.sleep(800);
+				  	        		}
+				  	        		break;
+								}catch(StaleElementReferenceException e) {
+									EsportsPlays = driver.findElements(By.xpath("//div[@class='casino_label']//div"));
+									EsportsNames = driver.findElements(By.xpath("//img[@class='h-[80px] xl:h-[90px] mx-auto']"));
+				  	        		Thread.sleep(200);
+				  	        		continue;
 								}
-//		  	        		} else {
-//		  	        			System.out.println("Fail: GameName Is Not Displayed: " + GameName);
-//		  	        		}
-		  	        		break;
-		  	        	}catch(NoSuchElementException e) {
-		  	        		jse.executeScript("window.scrollBy(0,150)");
-		  	        		Thread.sleep(200);
-		  	        		continue;
-		  	        	}catch(MoveTargetOutOfBoundsException e) {
-		  	        		jse.executeScript("window.scrollBy(0,150)");
-		  	        		Thread.sleep(200);
-		  	        	}catch(StaleElementReferenceException e) {
-		  	        		jse.executeScript("window.scrollBy(0,150)");
-		  	        		Thread.sleep(200);
-		  	        		continue;
-		  	        	}catch(IndexOutOfBoundsException e) {
-		  	        		jse.executeScript("window.scrollBy(0,150)");;
-		  	        		Thread.sleep(200);
-		  	        	}
-		  			}
-		    	}
-			}
-			System.out.println("Total number of games Failed in Slot Provider: "+ProvGameFailed);
-			System.out.println("Total number of games Failed in Slot Provider: "+ProvGamePassed);
+							}
+							System.out.println("Total number of games Failed in Sports: "+NoOfGamesFailedCat);
+							System.out.println("Total number of games Failed in Sports: "+NoOfGamesPassedCat);
+						}
+						System.out.println("Total number of games Failed in Sports: "+NoOfGamesFailedCat);
+						System.out.println("Total number of games Failed in Sports: "+NoOfGamesPassedCat);
+					}else {
+						driver.findElement(By.xpath("//a[text()=' Slot']")).click();
+						Thread.sleep(500);
+						actions.moveToElement(driver.findElement(By.xpath("//a[text()=' Home']"))).perform();
+						Thread.sleep(1500);
+						List<WebElement> SlotProviderNames = driver.findElements(By.xpath("//div[@class='tab_btn_text text-center text-xs mt-2 uppercase']"));
+						for (int K = 1; K < SlotProviderNames.size(); K++) {
+							int ProvGamePassed = 0;
+							int ProvGameFailed = 0;
+							try {				
+								WebElement slotprovider = SlotProviderNames.get(K);
+								actions.moveToElement(slotprovider).perform();
+								String SlotProviderName = slotprovider.getText();
+								System.out.println("The Provider Name Is: " + SlotProviderName);
+								slotprovider.click();
+								Thread.sleep(100);
+							} catch (StaleElementReferenceException e) {
+								jse.executeScript("window.scrollBy(200,0)");
+								Thread.sleep(100);
+								SlotProviderNames = driver
+										.findElements(By.xpath("//div[@class='tab_btn_text text-center text-xs mt-2 uppercase']"));
+								WebElement slotprovider = SlotProviderNames.get(K);
+								String SlotProviderName = slotprovider.getText();
+								System.out.println("The Provider Name Is: " + SlotProviderName);
+								slotprovider.click();
+								Thread.sleep(100);
+							} catch (MoveTargetOutOfBoundsException e) {
+								jse.executeScript("window.scrollBy(200,0)");
+								Thread.sleep(50);
+								continue;
+							}
+							List<WebElement> pages = driver.findElements(By.xpath("//button[@class='p-btn']"));
+							String CurrentUrl = driver.getCurrentUrl();
+							int count2 = 0;
+							
+							if( driver.findElements(By.xpath("//button[@class='p-btn']")).size()!=0) {
+								pages = driver.findElements(By.xpath("//button[@class='p-btn']"));
+								int lastIndex = pages.size() - 1;
+								WebElement lastElement = pages.get(lastIndex);
+								String count1 = lastElement.getText();
+								count2 = Integer.parseInt(count1);
+								System.out.println("Pages: "+pages.size());
+							}
+							else {
+								count2 = 1;
+							}
+							for (int jc = 1; jc <= count2; jc++) {
+								if (jc > 5 && jc < 8) {
+									actions.scrollByAmount(1450, 1450).perform();
+									Thread.sleep(950);
+									WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
+									jse.executeScript("arguments[0].click()", hid);
+									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+									WebElement button = PageButton2.get(jc);
+									String buttonText = button.getText();
+									System.out.println("buttonText: "+buttonText);
+//									jse.executeScript("arguments[0].click()", button);
+//									button.click();
+									wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+									Thread.sleep(1050);
+									actions.scrollByAmount(-1450, -1450).perform();
+									Thread.sleep(950);
+								}else if(jc>=8) {
+									actions.scrollByAmount(1450, 1450).perform();
+									Thread.sleep(950);
+									driver.findElement(By.xpath("//button[text()='1']")).click();
+									Thread.sleep(2500);
+									jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
+									Thread.sleep(2500);
+									jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
+									Thread.sleep(2500);
+									if(jc>=9) {
+										driver.findElement(By.xpath("//button[text()='8']")).click();
+										Thread.sleep(2500);
+										Thread.sleep(2500);
+										try {
+											List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+											WebElement button = PageButton2.get(jc);
+											String buttonText = button.getText();
+											System.out.println("buttonText: "+buttonText);
+											jse.executeScript("arguments[0].click()", button);
+											Thread.sleep(1050);
+										}catch(IndexOutOfBoundsException e) {
+											if(jc<=12) {
+												WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+												String buttonText = button.getText();
+												System.out.println("buttonText: "+buttonText);
+//												jse.executeScript("arguments[0].click()", button);
+//												button.click();
+												wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+												Thread.sleep(1050);
+											}else {
+												break;
+											}
+										}
+									}else {
+										try {
+											List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+											WebElement button = PageButton2.get(jc);
+//											jse.executeScript("arguments[0].click()", button);
+//											button.click();
+    										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+											Thread.sleep(1050);
+										}catch(IndexOutOfBoundsException e) {
+											if(jc<=12) {
+												WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//												jse.executeScript("arguments[0].click()", button);
+//												button.click();
+        										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+												Thread.sleep(1050);
+											}else {
+												break;
+											}
+										}
+									}
+									actions.scrollByAmount(-1450, -1450).perform();
+									Thread.sleep(950);
+								}
+								else if (jc == 1) {
+								} 
+								else {
+									actions.scrollByAmount(1450, 1450).perform();
+									Thread.sleep(1050);
+									List<WebElement> PageButton = driver.findElements(By.xpath(
+											"//div[@class='flex justify-center items-center']/descendant::button"));
+									WebElement button = PageButton.get(jc);
+									String buttonName = button.getText();
+									System.out.println("Page Number Is: "+buttonName);
+//									jse.executeScript("arguments[0].click()", button);
+									button.click();
+//									wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+									Thread.sleep(1050);
+									actions.scrollByAmount(-1450, -1450).perform();
+									Thread.sleep(950);
+								}
+							//--------------------------------------------------------------------------------------------------------------------------------------//
+							// Game Section 
+							//--------------------------------------------------------------------------------------------------------------------------------------//
+						    	List<WebElement> gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
+						    	List<WebElement> TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
+								for(int g=2;g<4;g++) {
+						  			for(;;) {
+						  	        	try {
+						  	        		TestCmt = driver.findElements(By.xpath("//div[@class='game_btn_content']//div[@class='game_btn_content_text']"));
+						  	        		gamesButton = driver.findElements(By.xpath("//div[@class='game_btn_content']//button"));
+						  	        		WebElement GameName = TestCmt.get(g);
+						  	        		String GameNameIs = GameName.getText();
+						  	        		WebElement GameButton = gamesButton.get(g);
+//						  	        		if (GameName.isDisplayed()) {
+//						  	        			boolean doesItMatch = GameNameIs.matches(
+//														"[A-Z]([A-Z0-9][a-z][a-z0-9][A-Z]|[a-z0-9][A-Z][A-Z0-9][a-z])[A-Za-z0-9]*");
+//												boolean doesItMatch2 = GameNameIs.matches("\b[A-Z]+\b");
+//												if (doesItMatch) {
+//													System.out.println("****the game name is not having space :" + GameNameIs);
+//												} else if (doesItMatch2) {
+//													System.out.println(
+//															"*****the game name contains only capital letter :" + GameNameIs);
+//												}
+						  	        		if (GameButton.isEnabled()) {
+//						  	        			actions.moveToElement(GameButton).perform();
+												jse.executeScript("arguments[0].click()", GameButton);
+//												button.click();
+//												wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+												Thread.sleep(1500);
+						  	        			String FinalUrl = driver.getCurrentUrl();
+						                    	 ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+							                        int countw = tabs.size();
+							                        if (countw > 1) {
+							                            driver.switchTo().window(tabs.get(1));
+							                            Thread.sleep(2500);
+							                            System.out.println("Pass: " + GameNameIs + " is working fine");
+							                            driver.close();
+							                            driver.switchTo().window(tabs.get(0));
+							                            Thread.sleep(1800);
+							                            actions.scrollByAmount(0, -300).perform();
+							                            System.out.println("Pass: " + GameNameIs + " is working fine");
+							                            if(g<gamesButton.size()) {
+							                            	if (jc > 5 && jc < 8) {
+							        	    					actions.scrollByAmount(1450, 1450).perform();
+							        	    					Thread.sleep(950);
+							        							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
+							        							jse.executeScript("arguments[0].click()", hid);
+							        							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+							        							WebElement button = PageButton2.get(jc);
+//							        							jse.executeScript("arguments[0].click()", button);
+//							        							button.click();
+			            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+							        							Thread.sleep(1050);
+							        							actions.scrollByAmount(-1450, -1450).perform();
+							        							Thread.sleep(950);
+							        	    				}else if(jc>=8) {
+							        							actions.scrollByAmount(1450, 1450).perform();
+							        	    					Thread.sleep(950);
+							        	    					driver.findElement(By.xpath("//button[text()='1']")).click();
+							        	    					Thread.sleep(2500);
+							        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
+							        							Thread.sleep(2500);
+							        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
+							        							Thread.sleep(2500);
+							        							if(jc>=9) {
+							        								driver.findElement(By.xpath("//button[text()='8']")).click();
+							        								Thread.sleep(2500);
+							        								Thread.sleep(2500);
+							        								try {
+							        									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+							        									WebElement button = PageButton2.get(jc);
+//							        									jse.executeScript("arguments[0].click()", button);
+//							        									button.click();
+					            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+							        									Thread.sleep(1050);
+							        								}catch(IndexOutOfBoundsException e) {
+							        									if(jc<=12) {
+							        										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//							        										jse.executeScript("arguments[0].click()", button);
+//							        										button.click();
+						            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+							        										Thread.sleep(1050);
+							        									}else {
+							        										break;
+							        									}
+							        								}
+							        							}else {
+							        								try {
+						            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+						            									WebElement button = PageButton2.get(jc);
+//						            									jse.executeScript("arguments[0].click()", button);
+//						            									button.click();
+					            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+						            									Thread.sleep(1050);
+						            								}catch(IndexOutOfBoundsException e) {
+						            									if(jc<=12) {
+						            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//						            										jse.executeScript("arguments[0].click()", button);
+//						            										button.click();
+						            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+						            										Thread.sleep(1050);
+						            									}else {
+						            										break;
+						            									}
+						            								}
+							        							}
+							        							actions.scrollByAmount(-1450, -1450).perform();
+							        							Thread.sleep(950);
+							        						}
+							        	    				else if (jc == 1) {
+							        						} 
+							        						else {
+							        							actions.scrollByAmount(1450, 1450).perform();
+							        	    					Thread.sleep(950);
+							        							List<WebElement> PageButton = driver.findElements(By.xpath(
+							        									"//div[@class='flex justify-center items-center']/descendant::button"));
+							        							WebElement button = PageButton.get(jc);
+//							        							jse.executeScript("arguments[0].click()", button);
+							        							wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+							        							Thread.sleep(850);
+							        							actions.scrollByAmount(-1450, -1450).perform();
+							        	    					Thread.sleep(950);
+							        						}
+							                            }
+							                        }else 
+//							                        	if (CurrentUrl.equals(FinalUrl)) {
+							                        	if (driver.findElements(By.xpath("//div[@class='toast-message text-sm']")).size() != 0) {
+//							                        	if (wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='toast-message text-sm']"))).size() != 0) {
+							                        		String messgtext = (driver.findElement(By.xpath("//div[@class='toast-message text-sm']"))).getText();
+							                        		System.out.println("Fail: " + GameNameIs + " Is Not Opening: Message:- " + messgtext);
+							                        		Thread.sleep(1000);
+//															driver.findElement(By.xpath("//div[@class='toast-close ml-2 flex items-center self-center']")).click();
+															ProvGameFailed++;
+							                            	if(g<gamesButton.size()) {
+							                            		if (jc > 5 && jc < 8) {
+								        	    					actions.scrollByAmount(1450, 1450).perform();
+								        	    					Thread.sleep(950);
+								        							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
+								        							jse.executeScript("arguments[0].click()", hid);
+								        							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+								        							WebElement button = PageButton2.get(jc);
+//								        							jse.executeScript("arguments[0].click()", button);
+//								        							button.click();
+				            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+								        							Thread.sleep(1050);
+								        							actions.scrollByAmount(-1450, -1450).perform();
+								        							Thread.sleep(950);
+								        	    				}else if(jc>=8) {
+								        							actions.scrollByAmount(1450, 1450).perform();
+								        	    					Thread.sleep(950);
+								        	    					driver.findElement(By.xpath("//button[text()='1']")).click();
+								        	    					Thread.sleep(2500);
+								        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
+								        							Thread.sleep(2500);
+								        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
+								        							Thread.sleep(2500);
+								        							if(jc>=9) {
+								        								driver.findElement(By.xpath("//button[text()='8']")).click();
+								        								Thread.sleep(2500);
+								        								Thread.sleep(2500);
+								        								try {
+								        									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+								        									WebElement button = PageButton2.get(jc);
+//								        									jse.executeScript("arguments[0].click()", button);
+//								        									button.click();
+						            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+								        									Thread.sleep(1050);
+								        								}catch(IndexOutOfBoundsException e) {
+								        									if(jc<=12) {
+								        										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//								        										jse.executeScript("arguments[0].click()", button);
+//								        										button.click();
+							            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+								        										Thread.sleep(1050);
+								        									}else {
+								        										break;
+								        									}
+								        								}
+								        							}else {
+								        								try {
+							            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+							            									WebElement button = PageButton2.get(jc);
+//							            									jse.executeScript("arguments[0].click()", button);
+//							            									button.click();
+						            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+							            									Thread.sleep(1050);
+							            								}catch(IndexOutOfBoundsException e) {
+							            									if(jc<=12) {
+							            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//							            										jse.executeScript("arguments[0].click()", button);
+//							            										button.click();
+							            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+							            										Thread.sleep(1050);
+							            									}else {
+							            										break;
+							            									}
+							            								}
+								        							}
+								        							actions.scrollByAmount(-1450, -1450).perform();
+								        							Thread.sleep(950);
+								        						}
+								        	    				else if (jc == 1) {
+								        						} 
+								        						else {
+								        							actions.scrollByAmount(1450, 1450).perform();
+								        	    					Thread.sleep(950);
+								        							List<WebElement> PageButton = driver.findElements(By.xpath(
+								        									"//div[@class='flex justify-center items-center']/descendant::button"));
+								        							WebElement button = PageButton.get(jc);
+//								        							jse.executeScript("arguments[0].click()", button);
+								        							wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+								        							Thread.sleep(850);
+								        							actions.scrollByAmount(-1450, -1450).perform();
+								        	    					Thread.sleep(950);
+								        						}
+								                            }
+//						  	        			} else if(driver.findElements(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")).size() != 0){
+							                    } else {
+						  	        				ProvGamePassed++;
+						  	        				System.out.println("Pass: " + GameNameIs + " Is Working Fine");
+						  	        				Thread.sleep(2000);
+						  	        				wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//button[@TYPE='button']/*[@class='w-5 h-5 game_header_close_btn']")))).click();
+						  	        				if(g<gamesButton.size()) {
+						  	        					if (jc > 5 && jc < 8) {
+						        	    					actions.scrollByAmount(1450, 1450).perform();
+						        	    					Thread.sleep(950);
+						        							WebElement hid = driver.findElement(By.xpath("//button[text()='5']"));
+						        							jse.executeScript("arguments[0].click()", hid);
+						        							List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+						        							WebElement button = PageButton2.get(jc);
+//						        							jse.executeScript("arguments[0].click()", button);
+//						        							button.click();
+		            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+						        							Thread.sleep(1050);
+						        							actions.scrollByAmount(-1450, -1450).perform();
+						        							Thread.sleep(950);
+						        	    				}else if(jc>=8) {
+						        							actions.scrollByAmount(1450, 1450).perform();
+						        	    					Thread.sleep(950);
+						        	    					driver.findElement(By.xpath("//button[text()='1']")).click();
+						        	    					Thread.sleep(2500);
+						        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='5']")));
+						        							Thread.sleep(2500);
+						        							jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[text()='7']")));
+						        							Thread.sleep(2500);
+						        							if(jc>=9) {
+						        								driver.findElement(By.xpath("//button[text()='8']")).click();
+						        								Thread.sleep(2500);
+						        								Thread.sleep(2500);
+						        								try {
+						        									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+						        									WebElement button = PageButton2.get(jc);
+//						        									jse.executeScript("arguments[0].click()", button);
+//						        									button.click();
+				            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+						        									Thread.sleep(1050);
+						        								}catch(IndexOutOfBoundsException e) {
+						        									if(jc<=12) {
+						        										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//						        										jse.executeScript("arguments[0].click()", button);
+//						        										button.click();
+					            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+						        										Thread.sleep(1050);
+						        									}else {
+						        										break;
+						        									}
+						        								}
+						        							}else {
+						        								try {
+					            									List<WebElement> PageButton2 = driver.findElements(By.xpath("//div[@class='flex justify-center items-center']/descendant::button"));
+					            									WebElement button = PageButton2.get(jc);
+//					            									jse.executeScript("arguments[0].click()", button);
+//					            									button.click();
+				            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+					            									Thread.sleep(1050);
+					            								}catch(IndexOutOfBoundsException e) {
+					            									if(jc<=12) {
+					            										WebElement button = driver.findElement(By.xpath("//button[text()="+jc+"]"));
+//					            										jse.executeScript("arguments[0].click()", button);
+//					            										button.click();
+					            										wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+					            										Thread.sleep(1050);
+					            									}else {
+					            										break;
+					            									}
+					            								}
+						        							}
+						        							actions.scrollByAmount(-1450, -1450).perform();
+						        							Thread.sleep(950);
+						        						}
+						        	    				else if (jc == 1) {
+						        						} 
+						        						else {
+						        							actions.scrollByAmount(1450, 1450).perform();
+						        	    					Thread.sleep(950);
+						        							List<WebElement> PageButton = driver.findElements(By.xpath(
+						        									"//div[@class='flex justify-center items-center']/descendant::button"));
+						        							WebElement button = PageButton.get(jc);
+//						        							jse.executeScript("arguments[0].click()", button);
+						        							button.click();
+//						        							wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+						        							Thread.sleep(850);
+						        							actions.scrollByAmount(-1450, -1450).perform();
+						        	    					Thread.sleep(950);
+						        						}
+						                            }
+						  	        			}
+												}else {
+													System.out.println("Fail: GameName Is Disabled: " + GameName);
+												}
+//						  	        		} else {
+//						  	        			System.out.println("Fail: GameName Is Not Displayed: " + GameName);
+//						  	        		}
+						  	        		break;
+						  	        	}catch(NoSuchElementException e) {
+						  	        		jse.executeScript("window.scrollBy(0,150)");
+						  	        		Thread.sleep(200);
+						  	        		continue;
+						  	        	}catch(MoveTargetOutOfBoundsException e) {
+						  	        		jse.executeScript("window.scrollBy(0,150)");
+						  	        		Thread.sleep(200);
+						  	        	}catch(StaleElementReferenceException e) {
+						  	        		jse.executeScript("window.scrollBy(0,150)");
+						  	        		Thread.sleep(200);
+						  	        		continue;
+						  	        	}catch(IndexOutOfBoundsException e) {
+						  	        		jse.executeScript("window.scrollBy(0,150)");;
+						  	        		Thread.sleep(200);
+						  	        	}
+						  			}
+						    	}
+							}
+							System.out.println("Total number of games Failed in Slot Provider: "+ProvGameFailed);
+							System.out.println("Total number of games Failed in Slot Provider: "+ProvGamePassed);
+						}
+						System.out.println("Total number of games Failed in Sports: "+NoOfGamesFailedCat);
+						System.out.println("Total number of games Failed in Sports: "+NoOfGamesPassedCat);
+					}
+		}catch(StaleElementReferenceException e) {
+			WebElement category = Categiories.get(i);
+			String CatButtonName = category.getText();
+			System.out.println(CatButtonName);
+			category.click();
+			Thread.sleep(300);
+			actions.moveToElement(driver.findElement(By.xpath("//a[text()=' Home']"))).perform();
+			Thread.sleep(500);
 		}
-		driver.quit();
+		}		
+driver.quit();
 	}
 }
